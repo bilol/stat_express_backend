@@ -24,5 +24,6 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run webpack
-      run: npm run build
+
+    - name: Start the app (for testing)
+      run: npm start
