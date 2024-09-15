@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Node.js CI
 
 on:
   push:
@@ -19,11 +19,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16' # Use the Node.js version your project requires
+        node-version: '18'  # Use Node.js 18 or above
 
     - name: Install dependencies
       run: npm install
 
-
-    - name: Start the app (for testing)
+    - name: Start the app
       run: npm start
