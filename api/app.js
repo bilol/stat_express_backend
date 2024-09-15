@@ -1,9 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const companyRoutes = require('./routes/companyRoutes');
-const excelRoutes = require('./routes/excelRoutes');
-const errorHandler = require('./middlewares/errorHandler');
+const companyRoutes = require('../routes/companyRoutes');
+const excelRoutes = require('../routes/excelRoutes');
+const errorHandler = require('../middlewares/errorHandler');
 
 dotenv.config();
 
