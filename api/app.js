@@ -35,6 +35,8 @@ app.use('/api/excel', excelRoutes); // Add the route for handling Excel uploads
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
+const host = req.get('host');  // Get the host from the incoming request
+console.log(`Request received from host: ${host}`);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
