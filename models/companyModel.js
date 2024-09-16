@@ -6,7 +6,7 @@ const fetchCompanyData = async (okpo) => {
   const url = 'https://registr.stat.uz/ru/result/';
   // Load environment variables from .env
   const headers = {
-     'User-Agent': process.env.USER_AGENT,
+     //'User-Agent': process.env.USER_AGENT,
      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
      'Accept-Language': 'en-US,en;q=0.5',
      'Accept-Encoding': 'gzip, deflate, br, zstd',
