@@ -3,16 +3,16 @@ const companyService = require('../services/companyService');
 // Controller for handling the request
 const fetchCompanyData = async (req, res, next) => {
   const { okpo } = req.body;
-  const userAgent = req.get('User-Agent');  // Get the User-Agent from the request headers
-  
+
   if (!okpo) {
     return res.status(400).json({ success: false, message: 'OKPO is required' });
   }
 
   try {
-    // Call the service to fetch the company data with userAgent
-    const companyData = await companyService.getCompanyData(okpo, userAgent);
+    // Call the service to fetch the company data
+    const companyData = await companyService.getCompanyData(okpo);
 
+    // Ensure the response matches the expected structure
     const responseData = {
       INN: companyData.generalInfo.INN,
       'Registering Authority': companyData.generalInfo['Registering Authority'],
@@ -33,6 +33,7 @@ const fetchCompanyData = async (req, res, next) => {
       'Founders': companyData.founders.map(f => `${f.Founder} (${f.Share})`).join(', '),
     };
 
+    // Send the response in the structure that matches the frontend
     res.json({
       success: true,
       data: responseData,

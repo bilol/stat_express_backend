@@ -16,14 +16,11 @@ const uploadExcel = async (req, res) => {
     const data = xlsx.utils.sheet_to_json(sheet); // Convert the sheet data to JSON
     const okpoList = data.map((row) => row.OKPO); // Assuming the OKPO column is named 'OKPO'
 
-    // Get User-Agent from request headers
-    const userAgent = req.get('User-Agent') || process.env.DEFAULT_USER_AGENT;  // Fallback to default if not provided
-
-    // Use Promise.all() to fetch data for all OKPOs in parallel, with the User-Agent
+    // Use Promise.all() to fetch data for all OKPOs in parallel
     const companyDataList = await Promise.all(
       okpoList.map(async (okpo) => {
         try {
-          const html = await fetchCompanyData(okpo, userAgent); // Pass User-Agent to the fetch function
+          const html = await fetchCompanyData(okpo); // Fetch the HTML for the current OKPO
           const companyData = parseCompanyData(html); // Parse the company data from HTML
 
           return { okpo, companyData }; // Return the OKPO and the fetched company data

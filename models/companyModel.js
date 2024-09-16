@@ -2,31 +2,29 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 // Function to make POST request and retrieve HTML content
-const fetchCompanyData = async (okpo, userAgent) => {
+const fetchCompanyData = async (okpo) => {
   const url = 'https://registr.stat.uz/ru/result/';
-
-  // Set the headers dynamically based on the provided user agent
+  // Load environment variables from .env
   const headers = {
-    'User-Agent': userAgent || process.env.USER_AGENT,
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Accept-Encoding': 'gzip, deflate, br, zstd',
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Origin': 'https://registr.stat.uz',
-    'Connection': 'keep-alive',
-    'Referer': 'https://registr.stat.uz/ru/main.php',
-    'Cookie': process.env.COOKIE,
-    'Upgrade-Insecure-Requests': '1',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'same-origin',
-    'Sec-Fetch-User': '?1',
-    'Priority': 'u=0, i',
-  };
+     'User-Agent': process.env.USER_AGENT,
+     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
+     'Accept-Language': 'en-US,en;q=0.5',
+     'Accept-Encoding': 'gzip, deflate, br, zstd',
+     'Content-Type': 'application/x-www-form-urlencoded',
+     'Origin': 'https://registr.stat.uz',
+     'Connection': 'keep-alive',
+     'Referer': 'https://registr.stat.uz/ru/main.php',
+     'Cookie': process.env.COOKIE,
+     'Upgrade-Insecure-Requests': '1',
+     'Sec-Fetch-Dest': 'document',
+     'Sec-Fetch-Mode': 'navigate',
+     'Sec-Fetch-Site': 'same-origin',
+     'Sec-Fetch-User': '?1',
+     'Priority': 'u=0, i'
+};
 
   const data = new URLSearchParams({ OKPO: okpo, lang: '0', submit: '' });
 
-  // Make the POST request with dynamic User-Agent
   const response = await axios.post(url, data.toString(), { headers });
   return response.data;
 };
