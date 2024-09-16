@@ -9,12 +9,24 @@ dotenv.config();
 
 const app = express();
 
-// Allow all origins with CORS
+// Allow specific origins with CORS
+const allowedOrigins = [
+  'https://bilol.github.io',  // Your GitHub Pages frontend
+  'http://localhost:5173'     // Add localhost for local development if necessary
+];
+
 app.use(cors({
-  origin: "*",  // Add your frontend origins here
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,  // If you are using cookies or authentication
 }));
-
 
 app.use(express.json()); // To parse incoming JSON payloads
 
