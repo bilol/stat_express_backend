@@ -1,9 +1,10 @@
 const companyModel = require('../models/companyModel');
 
 // Service to fetch company data
-const getCompanyData = async (okpo) => {
+const getCompanyData = async (okpo, userAgent) => {
   try {
-    const html = await companyModel.fetchCompanyData(okpo);
+    // Pass both OKPO and userAgent to the fetchCompanyData function
+    const html = await companyModel.fetchCompanyData(okpo, userAgent);
     const parsedData = companyModel.parseCompanyData(html); // Parse the fetched HTML
     return parsedData;
   } catch (error) {
