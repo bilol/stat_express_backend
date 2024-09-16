@@ -11,7 +11,7 @@ const app = express();
 
 // Allow all origins with CORS
 app.use(cors({
-  origin: '*',  // You can change '*' to the specific origin of your frontend for production
+  origin: ['https://bilol.github.io'],  // Add your frontend origins here
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Allow all HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'],  // Allow necessary headers
   credentials: true,  // If you are using cookies or authentication
