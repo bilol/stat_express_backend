@@ -7,7 +7,7 @@ const fetchCompanyData = async (okpo, userAgent) => {
 
   // Set the headers dynamically based on the provided user agent
   const headers = {
-    'User-Agent': userAgent,  // Use the dynamic User-Agent passed from the frontend
+    'User-Agent': userAgent || process.env.USER_AGENT,
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.5',
     'Accept-Encoding': 'gzip, deflate, br, zstd',
