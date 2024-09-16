@@ -1,5 +1,4 @@
 const xlsx = require('xlsx');
-const path = require('path');
 const { fetchCompanyData, parseCompanyData } = require('../models/companyModel');
 
 // Function to handle the Excel upload, iterate over OKPO values, and fetch company data
@@ -9,7 +8,8 @@ const uploadExcel = async (req, res) => {
   }
 
   try {
-    const workbook = xlsx.readFile(req.file.path); // Read the uploaded Excel file
+    // Read the uploaded Excel file directly from the buffer (in memory)
+    const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0]; // Get the first sheet
     const sheet = workbook.Sheets[sheetName]; // Get the sheet data
 
