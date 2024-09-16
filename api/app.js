@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 // Define allowed origins
-const allowedOrigins = [process.env.FRONTEND_URL || 'http://localhost:5173'];
+const allowedOrigins = [process.env.FRONTEND_URL, 'https://stat-express-backend.vercel.app' || 'http://localhost:5173'];
 
 // Middleware for CORS
 app.use(cors({
