@@ -9,10 +9,12 @@ dotenv.config();
 
 const app = express();
 
-// Allow all origins for now to troubleshoot CORS issues
+// Allow specific origin
 app.use(cors({
-  origin: '*',  // Allow all origins (for debugging purposes)
-  credentials: false,  // Disable credentials since GitHub Pages doesn't use cookies
+  origin: ['https://bilol.github.io'],  // Allow only GitHub Pages frontend
+  methods: ['POST', 'OPTIONS'],  // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
+  credentials: true,  // Allow credentials (if necessary)
 }));
 
 app.use(express.json()); // To parse incoming JSON payloads
