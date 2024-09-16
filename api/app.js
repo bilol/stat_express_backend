@@ -11,7 +11,7 @@ const app = express();
 
 // Allow specific origin
 app.use(cors({
-  origin: ['https://bilol.github.io/statexpress_frontend/'],  // Allow only GitHub Pages frontend
+  origin: ['https://bilol.github.io'],  // Allow only GitHub Pages frontend
   methods: ['POST', 'OPTIONS'],  // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
   credentials: true,  // Allow credentials (if necessary)
