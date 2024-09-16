@@ -17,6 +17,8 @@ app.use(cors({
   credentials: true,  // Allow credentials (if necessary)
 }));
 
+app.options('*', cors());  // Preflight request handler
+
 app.use(express.json()); // To parse incoming JSON payloads
 
 // Routes
