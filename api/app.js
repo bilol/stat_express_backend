@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 // Define allowed origins
-const allowedOrigins = [process.env.FRONTEND_URL, 'https://bilol.github.io/statexpress_frontend'];
+const allowedOrigins = [process.env.FRONTEND_URL, 'https://bilol.github.io'];
 
 // Middleware for CORS
 app.use(cors({
