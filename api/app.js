@@ -9,13 +9,6 @@ dotenv.config();
 
 const app = express();
 
-// Middleware to log the host dynamically from the incoming request
-app.use((req, res, next) => {
-  const host = req.get('host');  // Get the host from the incoming request
-  console.log(`Request received from host: ${host}`);
-  next();
-});
-
 // Allow all origins with CORS
 app.use(cors({
   origin: '*', // This allows all origins
