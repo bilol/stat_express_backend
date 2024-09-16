@@ -4,7 +4,7 @@ const companyService = require('../services/companyService');
 const fetchCompanyData = async (req, res, next) => {
   const { okpo } = req.body;
   const userAgent = req.get('User-Agent');  // Get the User-Agent from the request headers
-
+  print(userAgent)
   if (!okpo) {
     return res.status(400).json({ success: false, message: 'OKPO is required' });
   }
