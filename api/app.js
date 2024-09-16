@@ -11,9 +11,12 @@ const app = express();
 
 // Allow all origins with CORS
 app.use(cors({
-  origin: '*', // This allows all origins
-  credentials: true, // Set to true if credentials (cookies, etc.) are required
+  origin: '*',  // You can change '*' to the specific origin of your frontend for production
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Allow all HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow necessary headers
+  credentials: true,  // If you are using cookies or authentication
 }));
+
 
 app.use(express.json()); // To parse incoming JSON payloads
 
