@@ -9,30 +9,17 @@ dotenv.config();
 
 const app = express();
 
-// Allow specific origins with CORS
-const allowedOrigins = [
-  'https://bilol.github.io',  // Your GitHub Pages frontend
-  'http://localhost:5173'     // Add localhost for local development if necessary
-];
-
+// Allow all origins for now to troubleshoot CORS issues
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,  // If you are using cookies or authentication
+  origin: '*',  // Allow all origins (for debugging purposes)
+  credentials: false,  // Disable credentials since GitHub Pages doesn't use cookies
 }));
 
 app.use(express.json()); // To parse incoming JSON payloads
 
 // Routes
 app.use('/api/company', companyRoutes);
-app.use('/api/excel', excelRoutes); // Add the route for handling Excel uploads
+app.use('/api/excel', excelRoutes); 
 
 // Custom error handler middleware
 app.use(errorHandler);
