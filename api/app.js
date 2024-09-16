@@ -11,7 +11,7 @@ const app = express();
 
 // Allow all origins with CORS
 app.use(cors({
-  origin: ['https://bilol.github.io'],  // Add your frontend origins here
+  origin: "*",  // Add your frontend origins here
   credentials: true,  // If you are using cookies or authentication
 }));
 
