@@ -66,7 +66,7 @@ const parseCompanyData = (html) => {
         case 'Регистрирующий орган':
           generalInfo['Registering Authority'] = value;
           break;
-        case 'Дата регистрации':
+        case 'Дата регистрации  ':
           generalInfo['Registration Date'] = value;
           break;
         case 'Номер регистрации':
