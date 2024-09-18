@@ -112,9 +112,9 @@ const parseCompanyData = (html) => {
     }
 
     // If we are in the shareholder section, collect shareholder data
-    if (isShareholderSection && cells.length === 4) {
+    if (isShareholderSection && cells.length === 2) {
       const shareholderName = $(cells[0]).text().trim().replace('&nbsp;', '');
-      const sharePercentage = $(cells[3]).text().trim();
+      const sharePercentage = $(cells[1]).text().trim();
 
       shareholderInfo.push({
         Shareholder: shareholderName,
