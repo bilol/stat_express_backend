@@ -26,11 +26,11 @@ const fetchCompanyData = async (req, res, next) => {
       'Active Status': companyData.generalInfo['Active Status'],
       'Charter Fund': companyData.generalInfo['Charter Fund'],
       'Email': companyData.contactInfo.Email || 'Not available',
-      'Phone Numbers': companyData.contactInfo['Phone Numbers'],
-      'SOATO Code': companyData.contactInfo['SOATO Code'],
-      'Address': companyData.contactInfo.Address,
-      'Leader': companyData.managementInfo.Leader,
-      'Founders': companyData.founders.map(f => `${f.Founder} (${f.Share})`).join(', '),
+      'Phone Numbers': companyData.contactInfo['Phone Numbers'] || 'Not available',
+      'SOATO Code': companyData.contactInfo['SOATO Code'] || 'Not available',
+      'Address': companyData.contactInfo.Address || 'Not available',
+      'Leader': companyData.managementInfo.Leader || 'Not available',
+      'Shareholders': companyData.shareholderInfo.map(s => `${s.Shareholder} (${s.Share})`).join(', '), // Update for shareholder info
     };
 
     // Send the response in the structure that matches the frontend

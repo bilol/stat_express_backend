@@ -4,48 +4,61 @@ const cheerio = require('cheerio');
 // Function to make POST request and retrieve HTML content
 const fetchCompanyData = async (okpo) => {
   const url = 'https://registr.stat.uz/ru/result/';
-  // Load environment variables from .env
+  
   const headers = {
-     //'User-Agent': process.env.USER_AGENT,
-     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
-     'Accept-Language': 'en-US,en;q=0.5',
-     'Accept-Encoding': 'gzip, deflate, br, zstd',
-     'Content-Type': 'application/x-www-form-urlencoded',
-     'Origin': 'https://registr.stat.uz',
-     'Connection': 'keep-alive',
-     'Referer': 'https://registr.stat.uz/ru/main.php',
-     'Cookie': process.env.COOKIE,
-     'Upgrade-Insecure-Requests': '1',
-     'Sec-Fetch-Dest': 'document',
-     'Sec-Fetch-Mode': 'navigate',
-     'Sec-Fetch-Site': 'same-origin',
-     'Sec-Fetch-User': '?1',
-     'Priority': 'u=0, i'
-};
+    'User-Agent': process.env.USER_AGENT,
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Origin': 'https://registr.stat.uz',
+    'Connection': 'keep-alive',
+    'Referer': 'https://registr.stat.uz/ru/main.php',
+    'Cookie': process.env.COOKIE,
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Fetch-User': '?1',
+    'Priority': 'u=0, i'
+  };
 
   const data = new URLSearchParams({ OKPO: okpo, lang: '0', submit: '' });
-
   const response = await axios.post(url, data.toString(), { headers });
+
   return response.data;
 };
 
 // Function to parse HTML content and extract company data
 const parseCompanyData = (html) => {
   const generalInfo = {};
-  const founders = [];
+  const shareholderInfo = [];
   const contactInfo = {};
   const managementInfo = {};
+  let isShareholderSection = false;
 
   const $ = cheerio.load(html);
   const rows = $('#demo2 tr');
 
   rows.each((i, row) => {
     const cells = $(row).find('td');
-    if (cells.length >= 2) {
+
+    // Detect the start of the shareholder section
+    if (cells.length === 1 && $(cells[0]).text().trim().includes('Информация об учредителях и их доле в уставном фонде')) {
+      isShareholderSection = true;
+      return;
+    }
+
+    // Stop collecting shareholders when encountering another section
+    if (isShareholderSection && cells.length === 1 && $(cells[0]).text().trim().includes('Контактные данные')) {
+      isShareholderSection = false;
+    }
+
+    // Collect general information before the shareholder section
+    if (!isShareholderSection && cells.length >= 2) {
       const key = $(cells[0]).text().trim().replace(':', '');
       const value = $(cells[1]).text().trim();
 
-      // Match all general fields
       switch (key) {
         case 'ИНН':
           generalInfo['INN'] = value;
@@ -53,7 +66,7 @@ const parseCompanyData = (html) => {
         case 'Регистрирующий орган':
           generalInfo['Registering Authority'] = value;
           break;
-        case 'Дата регистрации  ':
+        case 'Дата регистрации':
           generalInfo['Registration Date'] = value;
           break;
         case 'Номер регистрации':
@@ -98,16 +111,19 @@ const parseCompanyData = (html) => {
       }
     }
 
-    // Collect founders info
-    if (cells.length === 4) {
-      founders.push({
-        Founder: $(cells[0]).text().trim(),
-        Share: $(cells[3]).text().trim(),
+    // If we are in the shareholder section, collect shareholder data
+    if (isShareholderSection && cells.length === 4) {
+      const shareholderName = $(cells[0]).text().trim().replace('&nbsp;', '');
+      const sharePercentage = $(cells[3]).text().trim();
+
+      shareholderInfo.push({
+        Shareholder: shareholderName,
+        Share: sharePercentage,
       });
     }
   });
 
-  return { generalInfo, founders, contactInfo, managementInfo };
+  return { generalInfo, shareholderInfo, contactInfo, managementInfo };
 };
 
 module.exports = {
